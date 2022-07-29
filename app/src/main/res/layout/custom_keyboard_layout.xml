@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="340dp"
+    android:background="@color/material_dynamic_neutral70">
+
+    <TextView
+        android:id="@+id/title_animals"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/animals"
+        android:textSize="32sp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@id/ic_keyboard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/ic_keyboard"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_keyboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/title_animals"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_margin="100dp"
+        android:background="@color/material_dynamic_neutral70"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/white"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_animals" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_animals"
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_animals"
+        tools:listitem="@layout/custom_keyboard_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

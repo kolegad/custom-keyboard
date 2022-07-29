@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Custom keyboard</string>
+    <string name="welcome">Welcome to custom keyboard</string>
+    <string name="enable_and_set_for_default">For using this custom keyboard you need to go to your settings and enable the custom keyboard. After that, when you want to use this custom keyboard, you neet to set it for default keyboard.</string>
+    <string name="description_for_sharing">After that go to any chat application and share content :)</string>
+    <string name="animals">Animals</string>
+    <string name="network_problem">Network error occurred while downloading.</string>
+    <string name="download_problem">IO error occurred while downloading</string>
+</resources>
