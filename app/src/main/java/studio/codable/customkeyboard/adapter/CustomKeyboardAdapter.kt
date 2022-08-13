@@ -34,8 +34,7 @@ class CustomKeyboardAdapter(
     }
 
     override fun onBindViewHolder(holder: CustomKeyboardViewHolder, position: Int) {
-        val planItem = animals[position]
-        holder.bind(planItem)
+        holder.bind(animals[position])
     }
 
     override fun getItemCount(): Int {
