@@ -62,10 +62,20 @@ class CustomKeyboardInputService : InputMethodService() {
     private fun hideProgressBar() {
         Handler(Looper.getMainLooper()).postDelayed(
             {
-                binding.apply {
-                    pbLoading.visibility = View.INVISIBLE
-                    rvAnimals.visibility = View.VISIBLE
+                try {
+                    binding.apply {
+                        pbLoading.visibility = View.INVISIBLE
+                        rvAnimals.visibility = View.VISIBLE
+                    }
+                }catch (t : Throwable){
+                    Log.d(TAG, "Progress bar problem")
+                    Toast.makeText(
+                        applicationContext,
+                        "Problem with hiding progress bar",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+
             }, 1000
         )
     }
