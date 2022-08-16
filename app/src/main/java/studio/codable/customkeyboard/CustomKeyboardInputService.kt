@@ -25,19 +25,9 @@ class CustomKeyboardInputService : InputMethodService() {
         private const val TAG = "CUSTOM_KEYBOARD"
     }
 
-    interface InteractionListener {
-        fun onClickItem(animal: Animal)
-    }
-
     private var _binding: CustomKeyboardLayoutBinding? = null
     private val binding: CustomKeyboardLayoutBinding
         get() = _binding!!
-
-    private val interactionListener = object : InteractionListener {
-        override fun onClickItem(animal: Animal) {
-            doCommitContent(animal)
-        }
-    }
 
     private val dataManager: DataManager = DataManager()
 
@@ -67,7 +57,7 @@ class CustomKeyboardInputService : InputMethodService() {
                         pbLoading.visibility = View.INVISIBLE
                         rvAnimals.visibility = View.VISIBLE
                     }
-                }catch (t : Throwable){
+                } catch (t: Throwable) {
                     Log.d(TAG, "Progress bar problem")
                     Toast.makeText(
                         applicationContext,
@@ -96,7 +86,11 @@ class CustomKeyboardInputService : InputMethodService() {
     private fun initRecyclerView() {
         binding.rvAnimals.apply {
             layoutManager = LinearLayoutManager(applicationContext)
-            adapter = CustomKeyboardAdapter(animals = SampleData.animals, interactionListener)
+            adapter = CustomKeyboardAdapter(animals = SampleData.animals) { animal ->
+                doCommitContent(
+                    animal
+                )
+            }
             addItemDecoration(dropsItemDecoration)
         }
         hideProgressBar()
@@ -152,5 +146,4 @@ class CustomKeyboardInputService : InputMethodService() {
             imm.switchToLastInputMethod(window.window?.attributes?.token)
         }
     }
-
 }

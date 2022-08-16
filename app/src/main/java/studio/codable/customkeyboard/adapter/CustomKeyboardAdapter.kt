@@ -1,28 +1,39 @@
 package studio.codable.customkeyboard.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import studio.codable.customkeyboard.CustomKeyboardInputService
 import studio.codable.customkeyboard.databinding.CustomKeyboardItemBinding
 import studio.codable.customkeyboard.model.Animal
 
 class CustomKeyboardAdapter(
     private val animals: List<Animal> = listOf(),
-    private var interactionListener : CustomKeyboardInputService.InteractionListener
+    private val onClickItem: (Animal) -> Unit
 ) : RecyclerView.Adapter<CustomKeyboardAdapter.CustomKeyboardViewHolder>() {
 
     inner class CustomKeyboardViewHolder(private val binding: CustomKeyboardItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(animal: Animal) {
-            binding.apply {
-                name.text = animal.name
-                Glide.with(image.context)
-                    .load(animal.imageUrl)
-                    .into(image)
-                root.setOnClickListener { interactionListener.onClickItem(animal) }
+        var animal: Animal? = null
+
+        private val onClickListener = View.OnClickListener {
+            animal?.let {
+                onClickItem(it)
+            }
+        }
+
+        fun bind(bindAnimal: Animal) {
+            animal = bindAnimal
+            animal?.let {
+                binding.apply {
+                    name.text = it.name
+                    Glide.with(image.context)
+                        .load(it.imageUrl)
+                        .into(image)
+                    root.setOnClickListener(onClickListener)
+                }
             }
         }
     }

@@ -100,7 +100,7 @@ class DataManager {
 
                 override fun onFailure(call: Call, e: IOException) {
                     Log.w(TAG, "onFailureDownload ${e.cause.toString()}")
-                    onResponse(DownloadStatus.Fail.IOError(e.cause!!))
+                    onResponse(DownloadStatus.Fail.IOError(e))
                 }
             })
         }
