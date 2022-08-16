@@ -16,7 +16,7 @@ sealed class DownloadStatus {
 
         object NetworkError : Fail()
         data class IOError(
-            override val throwable: Throwable? = null
+            override val throwable: Throwable
         ) : Fail()
     }
 }
