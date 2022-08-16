@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import studio.codable.customkeyboard.CustomKeyboardInputService
 import studio.codable.customkeyboard.databinding.CustomKeyboardItemBinding
 import studio.codable.customkeyboard.model.Animal
 
 class CustomKeyboardAdapter(
     private val animals: List<Animal> = listOf(),
-    val onClickItem: (Animal) -> Unit
+    private var interactionListener : CustomKeyboardInputService.InteractionListener
 ) : RecyclerView.Adapter<CustomKeyboardAdapter.CustomKeyboardViewHolder>() {
 
     inner class CustomKeyboardViewHolder(private val binding: CustomKeyboardItemBinding) :
@@ -21,9 +22,8 @@ class CustomKeyboardAdapter(
                 Glide.with(image.context)
                     .load(animal.imageUrl)
                     .into(image)
-                root.setOnClickListener { onClickItem(animal) }
+                root.setOnClickListener { interactionListener.onClickItem(animal) }
             }
-
         }
     }
 
