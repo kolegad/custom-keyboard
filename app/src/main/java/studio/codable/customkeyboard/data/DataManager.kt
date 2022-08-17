@@ -12,23 +12,25 @@ import studio.codable.customkeyboard.model.DownloadStatus
 import java.io.File
 import java.io.IOException
 
-object DataManager {
+class DataManager {
 
-    private const val ANIMALS_FOLDER = "animals"
-    private const val AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
-    private const val TAG = "CUSTOM_KEYBOARD"
-    private const val MAX_FILE_NUMBER_IN_CACHE_DIR = 20
+    companion object{
+        private const val ANIMALS_FOLDER = "animals"
+        private const val AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
+        private const val TAG = "CUSTOM_KEYBOARD"
+        private const val MAX_FILE_NUMBER_IN_CACHE_DIR = 20
+    }
 
     fun shareAnimal(
         context: Context,
-        animalImageUrl: String,
-        animalName: String,
+        imageUrl: String,
+        fileName: String,
         onResponse: (DownloadStatus) -> Unit
     ) {
         downloadFile(
             context,
-            url = animalImageUrl,
-            fileName = animalName
+            url = imageUrl,
+            fileName = fileName
         ) {
             Handler(Looper.getMainLooper()).post {
                 onResponse(it)
@@ -98,7 +100,7 @@ object DataManager {
 
                 override fun onFailure(call: Call, e: IOException) {
                     Log.w(TAG, "onFailureDownload ${e.cause.toString()}")
-                    onResponse(DownloadStatus.Fail.IOError(e.cause))
+                    onResponse(DownloadStatus.Fail.IOError(e))
                 }
             })
         }

@@ -29,10 +29,7 @@ class CustomKeyboardInputService : InputMethodService() {
     private val binding: CustomKeyboardLayoutBinding
         get() = _binding!!
 
-    private val customKeyboardAdapter =
-        CustomKeyboardAdapter(animals = SampleData.animals) { animal ->
-            doCommitContent(animal)
-        }
+    private val dataManager: DataManager = DataManager()
 
     override fun onCreateInputView(): View {
         _binding = CustomKeyboardLayoutBinding.inflate(layoutInflater, null, false)
@@ -55,14 +52,22 @@ class CustomKeyboardInputService : InputMethodService() {
     private fun hideProgressBar() {
         Handler(Looper.getMainLooper()).postDelayed(
             {
-                binding.apply {
-                    pbLoading.visibility = View.INVISIBLE
-                    rvAnimals.visibility = View.VISIBLE
-                    rvAnimals.visibility = View.VISIBLE
+                try {
+                    binding.apply {
+                        pbLoading.visibility = View.INVISIBLE
+                        rvAnimals.visibility = View.VISIBLE
+                    }
+                } catch (t: Throwable) {
+                    Log.d(TAG, "Progress bar problem")
+                    Toast.makeText(
+                        applicationContext,
+                        "Problem with hiding progress bar",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+
             }, 1000
         )
-
     }
 
     private var dropsItemDecoration = object : RecyclerView.ItemDecoration() {
@@ -81,7 +86,11 @@ class CustomKeyboardInputService : InputMethodService() {
     private fun initRecyclerView() {
         binding.rvAnimals.apply {
             layoutManager = LinearLayoutManager(applicationContext)
-            adapter = customKeyboardAdapter
+            adapter = CustomKeyboardAdapter(animals = SampleData.animals) { animal ->
+                doCommitContent(
+                    animal
+                )
+            }
             addItemDecoration(dropsItemDecoration)
         }
         hideProgressBar()
@@ -92,15 +101,15 @@ class CustomKeyboardInputService : InputMethodService() {
 
         val editorInfo = currentInputEditorInfo
 
-        DataManager.shareAnimal(
+        dataManager.shareAnimal(
             applicationContext,
-            animalImageUrl = animal.imageUrl,
-            animalName = animal.name,
+            imageUrl = animal.imageUrl,
+            fileName = animal.name,
         ) {
             when (it) {
                 is DownloadStatus.Success -> {
                     applicationContext.startActivity(
-                        DataManager.getKeyboardSharingIntent(
+                        dataManager.getKeyboardSharingIntent(
                             applicationContext,
                             editorInfo.packageName,
                             it.result
@@ -111,7 +120,7 @@ class CustomKeyboardInputService : InputMethodService() {
                     Log.d(TAG, "DownloadStatus.Fail.NetworkError ${animal.name}")
                     Toast.makeText(
                         applicationContext,
-                        applicationContext.getString(R.string.network_problem),
+                        R.string.network_problem,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -119,21 +128,22 @@ class CustomKeyboardInputService : InputMethodService() {
                     Log.d(TAG, "DownloadStatus.Fail.IOError ${animal.name}")
                     Toast.makeText(
                         applicationContext,
-                        applicationContext.getString(
-                            R.string.download_problem
-                        ),
+                        R.string.download_problem,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                switchToPreviousInputMethod()
-            } else {
-                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.switchToLastInputMethod(window.window?.attributes?.token)
-            }
+            switchInputMethod()
         }
     }
 
+    private fun switchInputMethod() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            switchToPreviousInputMethod()
+        } else {
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.switchToLastInputMethod(window.window?.attributes?.token)
+        }
+    }
 }
