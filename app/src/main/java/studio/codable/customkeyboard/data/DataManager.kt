@@ -123,8 +123,7 @@ class DataManager {
     fun getKeyboardSharingIntent(
         context: Context,
         destPackageName: String,
-        file: File,
-        type: String = "image/jpeg"
+        file: File
     ): Intent {
         val uri = FileProvider.getUriForFile(context, AUTHORITY, file)
 
@@ -132,7 +131,7 @@ class DataManager {
         Log.d(TAG, "Mime type $mimeType")
 
         return Intent(Intent.ACTION_SEND)
-            .setType(type)
+            .setType(mimeType)
             .putExtra(Intent.EXTRA_STREAM, uri)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             .setPackage(destPackageName)
