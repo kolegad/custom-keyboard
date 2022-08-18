@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import studio.codable.customkeyboard.adapter.CustomKeyboardAdapter
 import studio.codable.customkeyboard.data.DataManager
 import studio.codable.customkeyboard.data.SampleData
-import studio.codable.customkeyboard.databinding.CustomKeyboardLayoutBinding
+import studio.codable.customkeyboard.databinding.LayoutCustomKeyboardBinding
 import studio.codable.customkeyboard.model.Animal
 import studio.codable.customkeyboard.model.DownloadStatus
 
@@ -25,14 +25,14 @@ class CustomKeyboardInputService : InputMethodService() {
         private const val TAG = "CUSTOM_KEYBOARD"
     }
 
-    private var _binding: CustomKeyboardLayoutBinding? = null
-    private val binding: CustomKeyboardLayoutBinding
+    private var _binding: LayoutCustomKeyboardBinding? = null
+    private val binding: LayoutCustomKeyboardBinding
         get() = _binding!!
 
     private val dataManager: DataManager = DataManager()
 
     override fun onCreateInputView(): View {
-        _binding = CustomKeyboardLayoutBinding.inflate(layoutInflater, null, false)
+        _binding = LayoutCustomKeyboardBinding.inflate(layoutInflater, null, false)
         return binding.root
     }
 

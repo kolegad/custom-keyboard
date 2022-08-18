@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import studio.codable.customkeyboard.databinding.CustomKeyboardItemBinding
+import studio.codable.customkeyboard.databinding.ItemCustomKeyboardBinding
 import studio.codable.customkeyboard.model.Animal
 
 class CustomKeyboardAdapter(
@@ -13,15 +13,13 @@ class CustomKeyboardAdapter(
     private val onClickItem: (Animal) -> Unit
 ) : RecyclerView.Adapter<CustomKeyboardAdapter.CustomKeyboardViewHolder>() {
 
-    inner class CustomKeyboardViewHolder(private val binding: CustomKeyboardItemBinding) :
+    inner class CustomKeyboardViewHolder(private val binding: ItemCustomKeyboardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        var animal: Animal? = null
+        private var animal: Animal? = null
 
         private val onClickListener = View.OnClickListener {
-            animal?.let {
-                onClickItem(it)
-            }
+            animal?.let(onClickItem)
         }
 
         fun bind(bindAnimal: Animal) {
@@ -40,7 +38,7 @@ class CustomKeyboardAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomKeyboardViewHolder {
         val binding =
-            CustomKeyboardItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemCustomKeyboardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CustomKeyboardViewHolder(binding)
     }
 

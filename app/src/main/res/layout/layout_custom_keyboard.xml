@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="340dp"
+    android:layout_height="0dp"
     android:background="@color/material_dynamic_neutral70">
 
     <TextView
@@ -54,6 +54,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_animals"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/custom_keyboard_item" />
+        tools:listitem="@layout/item_custom_keyboard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
