@@ -87,7 +87,7 @@ class CustomKeyboardInputService : InputMethodService() {
         binding.rvAnimals.apply {
             layoutManager = LinearLayoutManager(applicationContext)
             adapter = CustomKeyboardAdapter(animals = SampleData.animals) { animal ->
-                doCommitContent(
+                startShareActivity(
                     animal
                 )
             }
@@ -96,7 +96,7 @@ class CustomKeyboardInputService : InputMethodService() {
         hideProgressBar()
     }
 
-    private fun doCommitContent(animal: Animal) {
+    private fun startShareActivity(animal: Animal) {
         Toast.makeText(applicationContext, "You clicked: ${animal.name}", Toast.LENGTH_SHORT).show()
 
         val editorInfo = currentInputEditorInfo
